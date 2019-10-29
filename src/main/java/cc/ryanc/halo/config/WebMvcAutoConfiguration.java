@@ -19,11 +19,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.List;
+
 import java.util.Locale;
 
 /**
  * <pre>
- *     拦截器，资源路径配置
+ *     拦截器，资�?路径�?置
  * </pre>
  *
  * @author : RYAN0UP
@@ -45,7 +46,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 配置静态资源路径
+     * �?置�?��?资�?路径
      *
      * @param registry registry
      */
@@ -84,7 +85,7 @@ public class WebMvcAutoConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 国际化参数拦截器
+     * 国际化�?�数拦截器
      *
      * @return LocaleChangeInterceptor
      */

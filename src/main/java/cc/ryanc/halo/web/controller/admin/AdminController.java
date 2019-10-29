@@ -37,7 +37,7 @@ import static cc.ryanc.halo.model.dto.HaloConst.USER_SESSION_KEY;
 
 /**
  * <pre>
- *     后台首页控制器
+ *     �?��?�首页控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -76,38 +76,43 @@ public class AdminController extends BaseController {
     private LocaleMessageUtil localeMessageUtil;
 
     /**
-     * 请求后台页面
+     * è¯·æ±‚å?Žå?°é¡µé?¢
      *
      * @param model   model
-     * @return 模板路径admin/admin_index
+<<<<<<< MINE
+=======
+     * @param session session
+     *
+>>>>>>> YOURS
+     * @return æ¨¡æ?¿è·¯å¾„admin/admin_index
      */
     @GetMapping(value = {"", "/index"})
     public String index(Model model) {
 
-        //查询评论的条数
+        //æŸ¥è¯¢è¯„è®ºçš„æ?¡æ•°
         final Long commentCount = commentService.getCount();
         model.addAttribute("commentCount", commentCount);
 
-        //查询最新的文章
+        //æŸ¥è¯¢æœ€æ–°çš„æ–‡ç« 
         final List<Post> postsLatest = postService.findPostLatest();
         model.addAttribute("postTopFive", postsLatest);
 
-        //查询最新的日志
+        //æŸ¥è¯¢æœ€æ–°çš„æ—¥å¿—
         final List<Logs> logsLatest = logsService.findLogsLatest();
         model.addAttribute("logs", logsLatest);
 
-        //查询最新的评论
+        //æŸ¥è¯¢æœ€æ–°çš„è¯„è®º
         final List<Comment> comments = commentService.findCommentsLatest();
         model.addAttribute("comments", comments);
 
-        //附件数量
+        //é™„ä»¶æ•°é‡?
         model.addAttribute("mediaCount", attachmentService.getCount());
 
-        //文章阅读总数
+        //æ–‡ç« é˜…è¯»æ€»æ•°
         final Long postViewsSum = postService.getPostViews();
         model.addAttribute("postViewsSum", postViewsSum);
 
-        //成立天数
+        //æˆ?ç«‹å¤©æ•°
         final Date blogStart = DateUtil.parse(OPTIONS.get(BlogPropertiesEnum.BLOG_START.getProp()));
         final long hadDays = DateUtil.between(blogStart, DateUtil.date(), DateUnit.DAY);
         model.addAttribute("hadDays", hadDays);
@@ -115,16 +120,16 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * 处理跳转到登录页的请求
+     * 处�?�跳转到登录页的请求
      *
      * @param session session
      *
-     * @return 模板路径admin/admin_login
+     * @return 模�?�路径admin/admin_login
      */
     @GetMapping(value = "/login")
     public String login(HttpSession session) {
         final User user = (User) session.getAttribute(USER_SESSION_KEY);
-        //如果session存在，跳转到后台首页
+        //å¦‚æžœsessionå­˜åœ¨ï¼Œè·³è½¬åˆ°å?Žå?°é¦–é¡µ
         if (null != user) {
             return "redirect:/admin";
         }
@@ -132,10 +137,10 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * 验证登录信息
+     * 验�?登录信�?�
      *
-     * @param loginName 登录名：邮箱／用户名
-     * @param loginPwd  loginPwd 密码
+     * @param loginName 登录�??：邮箱�?用户�??
+     * @param loginPwd  loginPwd 密�?
      * @param session   session session
      *
      * @return JsonResult JsonResult
@@ -145,9 +150,9 @@ public class AdminController extends BaseController {
     public JsonResult getLogin(@ModelAttribute("loginName") String loginName,
                                @ModelAttribute("loginPwd") String loginPwd,
                                HttpSession session) {
-        //已注册账号，单用户，只有一个
+        //å·²æ³¨å†Œè´¦å?·ï¼Œå?•ç�?¨æˆ·ï¼Œå?ªæœ‰ä¸€ä¸ª
         final User aUser = userService.findUser();
-        //首先判断是否已经被禁用已经是否已经过了10分钟
+        //é¦–å…ˆåˆ¤æ–­æ˜¯å?¦å·²ç»?è¢«ç¦?ç�?¨å·²ç»?æ˜¯å?¦å·²ç»?è¿‡äº†10åˆ†é’Ÿ
         Date loginLast = DateUtil.date();
         if (null != aUser.getLoginLast()) {
             loginLast = aUser.getLoginLast();
@@ -156,7 +161,7 @@ public class AdminController extends BaseController {
         if (StrUtil.equals(aUser.getLoginEnable(), TrueFalseEnum.FALSE.getDesc()) && (between < CommonParamsEnum.TEN.getValue())) {
             return new JsonResult(ResultCodeEnum.FAIL.getCode(), localeMessageUtil.getMessage("code.admin.login.disabled"));
         }
-        //验证用户名和密码
+        //éªŒè¯?ç�?¨æˆ·å??å’Œå¯†ç ?
         User user = null;
         if (Validator.isEmail(loginName)) {
             user = userService.userLoginByEmail(loginName, SecureUtil.md5(loginPwd));
@@ -164,18 +169,18 @@ public class AdminController extends BaseController {
             user = userService.userLoginByName(loginName, SecureUtil.md5(loginPwd));
         }
         userService.updateUserLoginLast(DateUtil.date());
-        //判断User对象是否相等
+        //åˆ¤æ–­Userå¯¹è±¡æ˜¯å?¦ç›¸ç­‰
         if (ObjectUtil.equal(aUser, user)) {
             session.setAttribute(USER_SESSION_KEY, aUser);
-            //重置用户的登录状态为正常
+            //é‡?ç½®ç�?¨æˆ·çš„ç™»å½•çŠ¶æ€?ä¸ºæ­£å¸¸
             userService.updateUserNormal();
             logsService.save(LogsRecord.LOGIN, LogsRecord.LOGIN_SUCCESS, request);
             log.info("User {} login succeeded.", aUser.getUserDisplayName());
             return new JsonResult(ResultCodeEnum.SUCCESS.getCode(), localeMessageUtil.getMessage("code.admin.login.success"));
         } else {
-            //更新失败次数
+            //æ›´æ–°å¤±è´¥æ¬¡æ•°
             final Integer errorCount = userService.updateUserLoginError();
-            //超过五次禁用账户
+            //è¶…è¿‡äº�?æ¬¡ç¦?ç�?¨è´¦æˆ·
             if (errorCount >= CommonParamsEnum.FIVE.getValue()) {
                 userService.updateUserLoginEnable(TrueFalseEnum.FALSE.getDesc());
             }
@@ -186,11 +191,11 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * 退出登录 销毁session
+     * 退出登录 销�?session
      *
      * @param session session
      *
-     * @return 重定向到/admin/login
+     * @return �?定�?�到/admin/login
      */
     @GetMapping(value = "/logOut")
     public String logOut(HttpSession session) {
@@ -205,7 +210,7 @@ public class AdminController extends BaseController {
      * 查看所有日志
      *
      * @param model model model
-     * @return 模板路径admin/widget/_logs-all
+     * @return 模�?�路径admin/widget/_logs-all
      */
     @GetMapping(value = "/logs")
     public String logs(Model model, @PageableDefault Pageable pageable) {
@@ -213,12 +218,27 @@ public class AdminController extends BaseController {
         final Page<Logs> logs = logsService.findAll(pageable);
         model.addAttribute("logs", logs);
         return "admin/widget/_logs-all";
-    }
+    }<<<<<<< MINE
+=======
+
+
+    /**
+     * æŸ¥çœ‹æ‰€æœ‰æ—¥å¿—
+     *
+     * @param model model model
+     * @param page  page å½“å‰?é¡µç ?
+     * @param size  size æ¯?é¡µæ?¡æ•°
+     *
+     * @return æ¨¡æ?¿è·¯å¾„admin/widget/_logs-all
+     */
+    
+>>>>>>> YOURS
+
 
     /**
      * 清除所有日志
      *
-     * @return 重定向到/admin
+     * @return �?定�?�到/admin
      */
     @GetMapping(value = "/logs/clear")
     public String logsClear() {
@@ -231,9 +251,9 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * Halo关于页面
+     * Halo关于页�?�
      *
-     * @return 模板路径admin/admin_halo
+     * @return 模�?�路径admin/admin_halo
      */
     @GetMapping(value = "/halo")
     public String halo() {
@@ -241,7 +261,7 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * 获取一个Token
+     * 获�?�一个Token
      *
      * @return JsonResult
      */
@@ -254,7 +274,7 @@ public class AdminController extends BaseController {
 
 
     /**
-     * 小工具
+     * �?工具
      *
      * @return String
      */
@@ -264,7 +284,7 @@ public class AdminController extends BaseController {
     }
 
     /**
-     * Markdown 导入页面
+     * Markdown 导入页�?�
      *
      * @return String
      */

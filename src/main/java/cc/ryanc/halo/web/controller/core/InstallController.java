@@ -27,7 +27,7 @@ import static cc.ryanc.halo.model.dto.HaloConst.*;
 
 /**
  * <pre>
- *     博客初始化控制器
+ *     �?�客�?始化控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -63,11 +63,11 @@ public class InstallController {
     private Configuration configuration;
 
     /**
-     * 渲染安装页面
+     * 渲染安装页�?�
      *
      * @param model model
      *
-     * @return 模板路径
+     * @return 模�?�路径
      */
     @GetMapping
     public String install(Model model) {
@@ -87,10 +87,10 @@ public class InstallController {
      * 执行安装
      *
      * @param blogLocale      系统语言
-     * @param userName        用户名
-     * @param userDisplayName 用户名显示名
+     * @param userName        用户�??
+     * @param userDisplayName 用户�??显示�??
      * @param userEmail       用户邮箱
-     * @param userPwd         用户密码
+     * @param userPwd         用户密�?
      * @param request         request
      *
      * @return JsonResult
@@ -107,9 +107,9 @@ public class InstallController {
                                 HttpServletRequest request) {
         try {
             if (StrUtil.equals(TrueFalseEnum.TRUE.getDesc(), OPTIONS.get(BlogPropertiesEnum.IS_INSTALL.getProp()))) {
-                return new JsonResult(ResultCodeEnum.FAIL.getCode(), "该博客已初始化，不能再次安装！");
+                return new JsonResult(ResultCodeEnum.FAIL.getCode(), "è¯¥å?šå®¢å·²åˆ?å§‹åŒ–ï¼Œä¸?èƒ½å†?æ¬¡å®‰è£…ï¼?");
             }
-            //创建新的用户
+            //åˆ›å»ºæ–°çš„ç�?¨æˆ·
             final User user = new User();
             user.setUserName(userName);
             if (StrUtil.isBlank(userDisplayName)) {
@@ -120,22 +120,22 @@ public class InstallController {
             user.setUserPass(SecureUtil.md5(userPwd));
             userService.save(user);
 
-            //默认分类
+            //é»˜è®¤åˆ†ç±»
             final Category category = new Category();
-            category.setCateName("未分类");
+            category.setCateName("æœªåˆ†ç±»");
             category.setCateUrl("default");
-            category.setCateDesc("未分类");
+            category.setCateDesc("æœªåˆ†ç±»");
             categoryService.save(category);
 
-            //第一篇文章
+            //ç¬¬ä¸€ç¯‡æ–‡ç« 
             final Post post = new Post();
             final List<Category> categories = new ArrayList<>();
             categories.add(category);
             post.setPostTitle("Hello Halo!");
             post.setPostContentMd("# Hello Halo!\n" +
-                    "欢迎使用Halo进行创作，删除这篇文章后赶紧开始吧。");
+                    "æ¬¢è¿Žä½¿ç�?¨Haloè¿›è¡Œåˆ›ä½œï¼Œåˆ é™¤è¿™ç¯‡æ–‡ç« å?Žèµ¶ç´§å¼€å§‹å?§ã€‚");
             post.setPostContent(MarkdownUtils.renderMarkdown(post.getPostContentMd()));
-            post.setPostSummary("欢迎使用Halo进行创作，删除这篇文章后赶紧开始吧。");
+            post.setPostSummary("æ¬¢è¿Žä½¿ç�?¨Haloè¿›è¡Œåˆ›ä½œï¼Œåˆ é™¤è¿™ç¯‡æ–‡ç« å?Žèµ¶ç´§å¼€å§‹å?§ã€‚");
             post.setPostStatus(0);
             post.setPostUrl("hello-halo");
             post.setUser(user);
@@ -144,7 +144,7 @@ public class InstallController {
             post.setPostThumbnail("/static/halo-frontend/images/thumbnail/thumbnail-" + RandomUtil.randomInt(1, 11) + ".jpg");
             postService.save(post);
 
-            //第一个评论
+            //ç¬¬ä¸€ä¸ªè¯„è®º
             final Comment comment = new Comment();
             comment.setPost(post);
             comment.setCommentAuthor("ruibaby");
@@ -152,7 +152,7 @@ public class InstallController {
             comment.setCommentAuthorUrl("https://ryanc.cc");
             comment.setCommentAuthorIp("127.0.0.1");
             comment.setCommentAuthorAvatarMd5(SecureUtil.md5("i@ryanc.cc"));
-            comment.setCommentContent("欢迎，欢迎！");
+            comment.setCommentContent("æ¬¢è¿Žï¼Œæ¬¢è¿Žï¼?");
             comment.setCommentStatus(0);
             comment.setCommentAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.162 Safari/537.36");
             comment.setIsAdmin(0);
@@ -172,18 +172,18 @@ public class InstallController {
             options.put(BlogPropertiesEnum.ATTACH_LOC.getProp(), AttachLocationEnum.SERVER.getDesc());
             optionsService.saveOptions(options);
 
-            //更新日志
-            logsService.save(LogsRecord.INSTALL, "安装成功，欢迎使用Halo。", request);
+            //æ›´æ–°æ—¥å¿—
+            logsService.save(LogsRecord.INSTALL, "å®‰è£…æˆ?åŠŸï¼Œæ¬¢è¿Žä½¿ç�?¨Haloã€‚", request);
 
             final Menu menuIndex = new Menu();
-            menuIndex.setMenuName("首页");
+            menuIndex.setMenuName("é¦–é¡µ");
             menuIndex.setMenuUrl("/");
             menuIndex.setMenuSort(1);
             menuIndex.setMenuIcon(" ");
             menuService.save(menuIndex);
 
             final Menu menuArchive = new Menu();
-            menuArchive.setMenuName("归档");
+            menuArchive.setMenuName("å½’æ¡£");
             menuArchive.setMenuUrl("/archives");
             menuArchive.setMenuSort(2);
             menuArchive.setMenuIcon(" ");
@@ -197,6 +197,6 @@ public class InstallController {
             log.error(e.getMessage());
             return new JsonResult(ResultCodeEnum.FAIL.getCode(), e.getMessage());
         }
-        return new JsonResult(ResultCodeEnum.SUCCESS.getCode(), "安装成功！");
+        return new JsonResult(ResultCodeEnum.SUCCESS.getCode(), "å®‰è£…æˆ?åŠŸï¼?");
     }
 }

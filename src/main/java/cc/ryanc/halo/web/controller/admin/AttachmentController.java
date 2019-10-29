@@ -31,7 +31,7 @@ import static cc.ryanc.halo.model.enums.AttachLocationEnum.*;
 
 /**
  * <pre>
- *     后台附件控制器
+ *     �?��?�附件控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -52,10 +52,10 @@ public class AttachmentController {
     private LocaleMessageUtil localeMessageUtil;
 
     /**
-     * 复印件列表
+     * �?�?�件列表
      *
      * @param model model
-     * @return 模板路径admin/admin_attachment
+     * @return 模�?�路径admin/admin_attachment
      */
     @GetMapping
     public String attachments(Model model,
@@ -66,10 +66,10 @@ public class AttachmentController {
     }
 
     /**
-     * 跳转选择附件页面
+     * 跳转选择附件页�?�
      *
      * @param model model
-     * @return 模板路径admin/widget/_attachment-select
+     * @return 模�?�路径admin/widget/_attachment-select
      */
     @GetMapping(value = "/select")
     public String selectAttachment(Model model,
@@ -87,7 +87,7 @@ public class AttachmentController {
 
 
     /**
-     * 上传附件窗口
+     * 上传附件窗�?�
      *
      * @return String
      */
@@ -117,7 +117,7 @@ public class AttachmentController {
                     result.put("message", localeMessageUtil.getMessage("code.admin.attachment.upload-failed"));
                     return result;
                 }
-                //保存在数据库
+                //ä¿?å­˜åœ¨æ•°æ?®åº“
                 Attachment attachment = new Attachment();
                 attachment.setAttachName(resultMap.get("fileName"));
                 attachment.setAttachPath(resultMap.get("filePath"));
@@ -146,11 +146,11 @@ public class AttachmentController {
     }
 
     /**
-     * 处理获取附件详情的请求
+     * 处�?�获�?�附件详情的请求
      *
      * @param model    model
-     * @param attachId 附件编号
-     * @return 模板路径admin/widget/_attachment-detail
+     * @param attachId 附件编�?�
+     * @return 模�?�路径admin/widget/_attachment-detail
      */
     @GetMapping(value = "/attachment")
     public String attachmentDetail(Model model, @RequestParam("attachId") Long attachId) {
@@ -162,7 +162,7 @@ public class AttachmentController {
     /**
      * 移除附件的请求
      *
-     * @param attachId 附件编号
+     * @param attachId 附件编�?�
      * @param request  request
      * @return JsonResult
      */
@@ -180,10 +180,10 @@ public class AttachmentController {
                 if (attachLocation.equals(SERVER.getDesc())) {
                     StrBuilder userPath = new StrBuilder(System.getProperties().getProperty("user.home"));
                     userPath.append("/halo");
-                    //图片物理地址
+                    //å›¾ç‰‡ç‰©ç?†åœ°å?€
                     StrBuilder delPath = new StrBuilder(userPath);
                     delPath.append(attachPath);
-                    //缩略图物理地址
+                    //ç¼©ç•¥å›¾ç‰©ç?†åœ°å?€
                     StrBuilder delSmallPath = new StrBuilder(userPath);
                     delSmallPath.append(attachment.getAttachSmallPath());
                     File delFile = new File(delPath.toString());

@@ -37,7 +37,7 @@ import static cc.ryanc.halo.model.dto.HaloConst.USER_SESSION_KEY;
 
 /**
  * <pre>
- *     后台评论管理控制器
+ *     �?��?�评论管�?�控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -58,11 +58,11 @@ public class CommentController extends BaseController {
     private PostService postService;
 
     /**
-     * 渲染评论管理页面
+     * 渲染评论管�?�页�?�
      *
      * @param model  model
-     * @param status status 评论状态
-     * @return 模板路径admin/admin_comment
+     * @param status status 评论状�?
+     * @return 模�?�路径admin/admin_comment
      */
     @GetMapping
     public String comments(Model model,
@@ -80,9 +80,9 @@ public class CommentController extends BaseController {
     /**
      * 将评论移到回收站
      *
-     * @param commentId 评论编号
-     * @param status    评论状态
-     * @return 重定向到/admin/comments
+     * @param commentId 评论编�?�
+     * @param status    评论状�?
+     * @return �?定�?�到/admin/comments
      */
     @GetMapping(value = "/throw")
     public String moveToTrash(@RequestParam("commentId") Long commentId,
@@ -97,12 +97,12 @@ public class CommentController extends BaseController {
     }
 
     /**
-     * 将评论改变为发布状态
+     * 将评论改�?�为�?�布状�?
      *
-     * @param commentId 评论编号
-     * @param status    评论状态
+     * @param commentId 评论编�?�
+     * @param status    评论状�?
      * @param session   session
-     * @return 重定向到/admin/comments
+     * @return �?定�?�到/admin/comments
      */
     @GetMapping(value = "/revert")
     public String moveToPublish(@RequestParam("commentId") Long commentId,
@@ -112,7 +112,7 @@ public class CommentController extends BaseController {
         final Post post = comment.getPost();
         final User user = (User) session.getAttribute(USER_SESSION_KEY);
 
-        //判断是否启用邮件服务
+        //åˆ¤æ–­æ˜¯å?¦å?¯ç�?¨é‚®ä»¶æœ?åŠ¡
         new NoticeToAuthor(comment, post, user, status).start();
         return "redirect:/admin/comments?status=" + status;
     }
@@ -120,9 +120,9 @@ public class CommentController extends BaseController {
     /**
      * 删除评论
      *
-     * @param commentId commentId 评论编号
-     * @param status    status 评论状态
-     * @return string 重定向到/admin/comments
+     * @param commentId commentId 评论编�?�
+     * @param status    status 评论状�?
+     * @return string �?定�?�到/admin/comments
      */
     @GetMapping(value = "/remove")
     public String moveToAway(@RequestParam("commentId") Long commentId,
@@ -138,10 +138,10 @@ public class CommentController extends BaseController {
 
 
     /**
-     * 管理员回复评论
+     * 管�?�员回�?评论
      *
-     * @param commentId      被回复的评论
-     * @param commentContent 回复的内容
+     * @param commentId      被回�?的评论
+     * @param commentContent 回�?的内容
      * @return JsonResult
      */
     @PostMapping(value = "/reply")
@@ -155,17 +155,17 @@ public class CommentController extends BaseController {
         try {
             final Post post = postService.findByPostId(postId).orElse(new Post());
 
-            //博主信息
+            //å?šä¸»ä¿¡æ?¯
             final User user = (User) session.getAttribute(USER_SESSION_KEY);
 
-            //被回复的评论
+            //è¢«å›žå¤?çš„è¯„è®º
             final Comment lastComment = commentService.findCommentById(commentId).orElse(new Comment());
 
-            //修改被回复的评论的状态
+            //ä¿®æ�?¹è¢«å›žå¤?çš„è¯„è®ºçš„çŠ¶æ€?
             lastComment.setCommentStatus(CommentStatusEnum.PUBLISHED.getCode());
             commentService.save(lastComment);
 
-            //保存评论
+            //ä¿?å­˜è¯„è®º
             final Comment comment = new Comment();
             comment.setPost(post);
             comment.setCommentAuthor(user.getUserDisplayName());
@@ -188,7 +188,7 @@ public class CommentController extends BaseController {
             comment.setIsAdmin(1);
             commentService.save(comment);
 
-            //邮件通知
+            //é‚®ä»¶é€šçŸ¥
             new EmailToAuthor(comment, lastComment, post, user, commentContent).start();
             return new JsonResult(ResultCodeEnum.SUCCESS.getCode());
         } catch (Exception e) {
@@ -198,7 +198,12 @@ public class CommentController extends BaseController {
     }
 
     /**
-     * 异步发送邮件回复给评论者
+     * 异步�?��?邮件回�?给评论者
+     */
+
+
+    /**
+     * 异步�?��?邮件回�?给评论者
      */
     class EmailToAuthor extends Thread {
 
@@ -241,11 +246,16 @@ public class CommentController extends BaseController {
                     map.put("replyContent", commentContent);
                     map.put("blogUrl", OPTIONS.get(BlogPropertiesEnum.BLOG_URL.getProp()));
                     mailService.sendTemplateMail(
-                            lastComment.getCommentAuthorEmail(), "您在" + OPTIONS.get(BlogPropertiesEnum.BLOG_URL.getProp()) + "的评论有了新回复", map, "common/mail_template/mail_reply.ftl");
+                            lastComment.getCommentAuthorEmail(), "æ‚¨åœ¨" + OPTIONS.get(BlogPropertiesEnum.BLOG_URL.getProp()) + "çš„è¯„è®ºæœ‰äº†æ–°å›žå¤?", map, "common/mail_template/mail_reply.ftl");
                 }
             }
         }
     }
+
+    /**
+     * 异步通知评论者审核通过
+     */
+
 
     /**
      * 异步通知评论者审核通过
@@ -289,7 +299,7 @@ public class CommentController extends BaseController {
                         map.put("author", user.getUserDisplayName());
                         mailService.sendTemplateMail(
                                 comment.getCommentAuthorEmail(),
-                                "您在" + OPTIONS.get(BlogPropertiesEnum.BLOG_URL.getProp()) + "的评论已审核通过！", map, "common/mail_template/mail_passed.ftl");
+                                "æ‚¨åœ¨" + OPTIONS.get(BlogPropertiesEnum.BLOG_URL.getProp()) + "çš„è¯„è®ºå·²å®¡æ ¸é€šè¿‡ï¼?", map, "common/mail_template/mail_passed.ftl");
                     }
                 } catch (Exception e) {
                     log.error("Mail server not configured: {}", e.getMessage());

@@ -47,7 +47,7 @@ import static cc.ryanc.halo.model.dto.HaloConst.USER_SESSION_KEY;
 
 /**
  * <pre>
- *     后台页面管理控制器
+ *     �?��?�页�?�管�?�控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -77,10 +77,10 @@ public class PageController {
     private HttpServletRequest request;
 
     /**
-     * 页面管理页面
+     * 页�?�管�?�页�?�
      *
      * @param model model
-     * @return 模板路径admin/admin_page
+     * @return 模�?�路径admin/admin_page
      */
     @GetMapping
     public String pages(Model model) {
@@ -90,9 +90,9 @@ public class PageController {
     }
 
     /**
-     * 获取友情链接列表并渲染页面
+     * 获�?��?�情链接列表并渲染页�?�
      *
-     * @return 模板路径admin/admin_page_link
+     * @return 模�?�路径admin/admin_page_link
      */
     @GetMapping(value = "/links")
     public String links() {
@@ -100,11 +100,11 @@ public class PageController {
     }
 
     /**
-     * 跳转到修改页面
+     * 跳转到修改页�?�
      *
      * @param model  model
-     * @param linkId linkId 友情链接编号
-     * @return String 模板路径admin/admin_page_link
+     * @param linkId linkId �?�情链接编�?�
+     * @return String 模�?�路径admin/admin_page_link
      */
     @GetMapping(value = "/links/edit")
     public String toEditLink(Model model, @RequestParam("linkId") Long linkId) {
@@ -114,7 +114,7 @@ public class PageController {
     }
 
     /**
-     * 处理添加/修改友链的请求并渲染页面
+     * 处�?�添加/修改�?�链的请求并渲染页�?�
      *
      * @param link Link实体
      * @return JsonResult
@@ -135,10 +135,10 @@ public class PageController {
     }
 
     /**
-     * 处理删除友情链接的请求并重定向
+     * 处�?�删除�?�情链接的请求并�?定�?�
      *
-     * @param linkId 友情链接编号
-     * @return 重定向到/admin/page/links
+     * @param linkId �?�情链接编�?�
+     * @return �?定�?�到/admin/page/links
      */
     @GetMapping(value = "/links/remove")
     public String removeLink(@RequestParam("linkId") Long linkId) {
@@ -151,10 +151,10 @@ public class PageController {
     }
 
     /**
-     * 图库管理
+     * 图库管�?�
      *
      * @param model model
-     * @return 模板路径admin/admin_page_gallery
+     * @return 模�?�路径admin/admin_page_gallery
      */
     @GetMapping(value = "/galleries")
     public String gallery(Model model,
@@ -165,10 +165,10 @@ public class PageController {
     }
 
     /**
-     * 保存图片
+     * �?存图片
      *
      * @param gallery gallery
-     * @return 重定向到/admin/page/gallery
+     * @return �?定�?�到/admin/page/gallery
      */
     @PostMapping(value = "/gallery/save")
     public String saveGallery(@ModelAttribute Gallery gallery) {
@@ -184,11 +184,11 @@ public class PageController {
     }
 
     /**
-     * 处理获取图片详情的请求
+     * 处�?�获�?�图片详情的请求
      *
      * @param model     model
-     * @param galleryId 图片编号
-     * @return 模板路径admin/widget/_gallery-detail
+     * @param galleryId 图片编�?�
+     * @return 模�?�路径admin/widget/_gallery-detail
      */
     @GetMapping(value = "/gallery")
     public String gallery(Model model, @RequestParam("galleryId") Long galleryId) {
@@ -200,7 +200,7 @@ public class PageController {
     /**
      * 删除图库中的图片
      *
-     * @param galleryId 图片编号
+     * @param galleryId 图片编�?�
      * @return JsonResult
      */
     @GetMapping(value = "/gallery/remove")
@@ -216,10 +216,10 @@ public class PageController {
     }
 
     /**
-     * 跳转到新建页面
+     * 跳转到新建页�?�
      *
      * @param model model
-     * @return 模板路径admin/admin_page_md_editor
+     * @return 模�?�路径admin/admin_page_md_editor
      */
     @GetMapping(value = "/new")
     public String newPage(Model model) {
@@ -229,7 +229,7 @@ public class PageController {
     }
 
     /**
-     * 发表页面
+     * �?�表页�?�
      *
      * @param post    post
      * @param session session
@@ -239,7 +239,7 @@ public class PageController {
     public JsonResult pushPage(@ModelAttribute Post post, HttpSession session) {
         String msg = localeMessageUtil.getMessage("code.admin.common.save-success");
         try {
-            //发表用户
+            //å?‘è¡¨ç�?¨æˆ·
             final User user = (User) session.getAttribute(USER_SESSION_KEY);
             post.setUser(user);
             post.setPostType(PostTypeEnum.POST_TYPE_PAGE.getDesc());
@@ -252,7 +252,7 @@ public class PageController {
                 msg = localeMessageUtil.getMessage("code.admin.common.update-success");
             }
             post.setPostContent(MarkdownUtils.renderMarkdown(post.getPostContentMd()));
-            //当没有选择文章缩略图的时候，自动分配一张内置的缩略图
+            //å½“æ²¡æœ‰é€‰æ‹©æ–‡ç« ç¼©ç•¥å›¾çš„æ—¶å€™ï¼Œè‡ªåŠ¨åˆ†é…?ä¸€å¼ å†…ç½®çš„ç¼©ç•¥å›¾
             if (StrUtil.equals(post.getPostThumbnail(), BlogPropertiesEnum.DEFAULT_THUMBNAIL.getProp())) {
                 post.setPostThumbnail("/static/halo-frontend/images/thumbnail/thumbnail-" + RandomUtil.randomInt(1, 11) + ".jpg");
             }
@@ -266,9 +266,9 @@ public class PageController {
     }
 
     /**
-     * 跳转到修改页面
+     * 跳转到修改页�?�
      *
-     * @param pageId 页面编号
+     * @param pageId 页�?�编�?�
      * @param model  model
      * @return admin/admin_page_md_editor
      */
@@ -282,7 +282,7 @@ public class PageController {
     }
 
     /**
-     * 检查该路径是否已经存在
+     * 检查该路径是�?�已�?存在
      *
      * @param postUrl postUrl
      * @return JsonResult

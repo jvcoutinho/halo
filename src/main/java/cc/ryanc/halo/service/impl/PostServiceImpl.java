@@ -64,7 +64,7 @@ public class PostServiceImpl implements PostService {
     private TagService tagService;
 
     /**
-     * 保存文章
+     * �?存文章
      *
      * @param post Post
      *
@@ -88,7 +88,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据编号移除文章
+     * 根�?�编�?�移除文章
      *
      * @param postId postId
      *
@@ -103,7 +103,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 修改文章状态
+     * 修改文章状�?
      *
      * @param postId postId
      * @param status status
@@ -119,7 +119,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 批量更新文章摘要
+     * 批�?更新文章摘�?
      *
      * @param postSummary postSummary
      */
@@ -139,7 +139,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 获取文章列表 不分页
+     * 获�?�文章列表 �?分页
      *
      * @param postType post or page
      *
@@ -154,10 +154,10 @@ public class PostServiceImpl implements PostService {
     /**
      * 模糊查询文章
      *
-     * @param keyword    关键词
+     * @param keyword    关键�?
      * @param postType   文章类型
-     * @param postStatus 文章状态
-     * @param pageable   分页信息
+     * @param postStatus 文章状�?
+     * @param pageable   分页信�?�
      *
      * @return Page
      */
@@ -173,7 +173,7 @@ public class PostServiceImpl implements PostService {
                 pageable
         ).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
@@ -191,11 +191,11 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据文章状态查询 分页，用于后台管理
+     * 根�?�文章状�?查询 分页，用于�?��?�管�?�
      *
      * @param status   0，1，2
      * @param postType post or page
-     * @param pageable 分页信息
+     * @param pageable 分页信�?�
      *
      * @return Page
      */
@@ -203,14 +203,14 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findPostByStatus(Integer status, String postType, Pageable pageable) {
         return postRepository.findPostsByPostStatusAndPostType(status, postType, pageable).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
     }
 
     /**
-     * 根据文章状态查询 分页，首页分页
+     * 根�?�文章状�?查询 分页，首页分页
      *
      * @param pageable pageable
      *
@@ -221,14 +221,14 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findPostByStatus(Pageable pageable) {
         return postRepository.findPostsByPostStatusAndPostType(PostStatusEnum.PUBLISHED.getCode(), PostTypeEnum.POST_TYPE_POST.getDesc(), pageable).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
     }
 
     /**
-     * 根据文章状态查询
+     * 根�?�文章状�?查询
      *
      * @param status   0，1，2
      * @param postType post or page
@@ -242,7 +242,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据编号查询文章
+     * 根�?�编�?�查询文章
      *
      * @param postId postId
      *
@@ -254,7 +254,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据编号和类型查询文章
+     * 根�?�编�?�和类型查询文章
      *
      * @param postId postId
      *
@@ -266,7 +266,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据文章路径查询
+     * 根�?�文章路径查询
      *
      * @param postUrl  路径
      * @param postType post or page
@@ -291,7 +291,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 获取下一篇文章 较新
+     * 获�?�下一篇文章 较新
      *
      * @param postDate postDate
      *
@@ -303,7 +303,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 获取下一篇文章 较老
+     * 获�?�下一篇文章 较�?
      *
      * @param postDate postDate
      *
@@ -315,7 +315,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 查询归档信息 根据年份和月份
+     * 查询归档信�?� 根�?�年份和月份
      *
      * @return List
      */
@@ -337,7 +337,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 查询归档信息 根据年份
+     * 查询归档信�?� 根�?�年份
      *
      * @return List
      */
@@ -361,7 +361,7 @@ public class PostServiceImpl implements PostService {
      * @return List
      *
      * @Author Aquan
-     * @Description 查询归档信息 返回所有文章
+     * @Description 查询归档信�?� 返回所有文章
      * @Date 2019.1.4 11:16
      * @Param
      **/
@@ -382,7 +382,7 @@ public class PostServiceImpl implements PostService {
 
 
     /**
-     * 根据年份和月份查询文章
+     * 根�?�年份和月份查询文章
      *
      * @param year  year
      * @param month month
@@ -396,7 +396,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据年份查询文章
+     * 根�?�年份查询文章
      *
      * @param year year
      *
@@ -409,7 +409,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据年份和月份索引文章
+     * 根�?�年份和月份索引文章
      *
      * @param year     year year
      * @param month    month month
@@ -421,14 +421,14 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findPostByYearAndMonth(String year, String month, Pageable pageable) {
         return postRepository.findPostByYearAndMonth(year, month, null).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
     }
 
     /**
-     * 根据分类目录查询文章
+     * æ ¹æ?®åˆ†ç±»ç›®å½•æŸ¥è¯¢æ–‡ç« 
      *
      * @param category category
      * @param pageable pageable
@@ -440,14 +440,14 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findPostByCategories(Category category, Pageable pageable) {
         return postRepository.findPostByCategoriesAndPostStatus(category, PostStatusEnum.PUBLISHED.getCode(), pageable).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
     }
 
     /**
-     * 根据标签查询文章，分页
+     * æ ¹æ?®æ ‡ç­¾æŸ¥è¯¢æ–‡ç« ï¼Œåˆ†é¡µ
      *
      * @param tag      tag
      * @param pageable pageable
@@ -459,7 +459,7 @@ public class PostServiceImpl implements PostService {
     public Page<Post> findPostsByTags(Tag tag, Pageable pageable) {
         return postRepository.findPostsByTagsAndPostStatus(tag, PostStatusEnum.PUBLISHED.getCode(), pageable).map(post -> {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
-                post.setPostSummary("该文章为加密文章");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
             }
             return post;
         });
@@ -477,7 +477,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 当前文章的相似文章
+     * 当�?文章的相似文章
      *
      * @param post post
      *
@@ -486,15 +486,15 @@ public class PostServiceImpl implements PostService {
     @Override
     @CachePut(value = POSTS_CACHE_NAME, key = "'posts_related_'+#post.getPostId()")
     public List<Post> relatedPosts(Post post) {
-        //获取当前文章的所有标签
+        //èŽ·å?–å½“å‰?æ–‡ç« çš„æ‰€æœ‰æ ‡ç­¾
         final List<Tag> tags = post.getTags();
         final List<Post> tempPosts = new ArrayList<>();
         for (Tag tag : tags) {
             tempPosts.addAll(postRepository.findPostsByTags(tag));
         }
-        //去掉当前的文章
+        //åŽ»æŽ‰å½“å‰?çš„æ–‡ç« 
         tempPosts.remove(post);
-        //去掉重复的文章
+        //åŽ»æŽ‰é‡?å¤?çš„æ–‡ç« 
         final List<Post> allPosts = new ArrayList<>();
         for (int i = 0; i < tempPosts.size(); i++) {
             if (!allPosts.contains(tempPosts.get(i))) {
@@ -505,7 +505,7 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 获取所有文章的阅读量
+     * 获�?�所有文章的阅读�?
      *
      * @return Long
      */
@@ -515,11 +515,11 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 根据文章状态查询数量
+     * 根�?�文章状�?查询数�?
      *
-     * @param status 文章状态
+     * @param status 文章状�?
      *
-     * @return 文章数量
+     * @return 文章数�?
      */
     @Override
     public Integer getCountByStatus(Integer status) {
@@ -561,9 +561,9 @@ public class PostServiceImpl implements PostService {
     }
 
     /**
-     * 获取最近的文章
+     * 获�?�最近的文章
      *
-     * @param limit 条数
+     * @param limit �?�数
      *
      * @return List
      */

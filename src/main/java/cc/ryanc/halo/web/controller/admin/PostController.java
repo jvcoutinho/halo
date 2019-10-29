@@ -35,13 +35,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static org.springframework.data.domain.Sort.Direction.DESC;
+
 import static cc.ryanc.halo.model.dto.HaloConst.OPTIONS;
 import static cc.ryanc.halo.model.dto.HaloConst.USER_SESSION_KEY;
-import static org.springframework.data.domain.Sort.Direction.DESC;
 
 /**
  * <pre>
- *     后台文章管理控制器
+ *     �?��?�文章管�?�控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -65,7 +66,7 @@ public class PostController extends BaseController {
     private LocaleMessageUtil localeMessageUtil;
 
     /**
-     * 去除html，htm后缀，以及将空格替换成-
+     * 去除html，htm�?�缀，以�?�将空格替�?��?-
      *
      * @param url url
      *
@@ -82,10 +83,10 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 处理后台获取文章列表的请求
+     * 处�?��?��?�获�?�文章列表的请求
      *
      * @param model model
-     * @return 模板路径admin/admin_post
+     * @return 模�?�路径admin/admin_post
      */
     @GetMapping
     public String posts(Model model,
@@ -105,7 +106,7 @@ public class PostController extends BaseController {
      *
      * @param model   Model
      * @param keyword keyword 关键字
-     * @return 模板路径admin/admin_post
+     * @return 模�?�路径admin/admin_post
      */
     @PostMapping(value = "/search")
     public String searchPost(Model model,
@@ -118,15 +119,46 @@ public class PostController extends BaseController {
             log.error("未知错误：{}", e.getMessage());
         }
         return "admin/admin_post";
-    }
+    }<<<<<<< MINE
+=======
+
 
     /**
-     * 处理预览文章的请求
+     * å¤„ç?†å?Žå?°èŽ·å?–æ–‡ç« åˆ—è¡¨çš„è¯·æ±‚
      *
-     * @param postId 文章编号
+     * @param model model
+     * @param page  å½“å‰?é¡µç ?
+     * @param size  æ¯?é¡µæ˜¾ç¤ºçš„æ?¡æ•°
+     *
+     * @return æ¨¡æ?¿è·¯å¾„admin/admin_post
+     */
+    
+>>>>>>> YOURS
+<<<<<<< MINE
+=======
+
+
+    /**
+     * æ¨¡ç³ŠæŸ¥è¯¢æ–‡ç« 
+     *
+     * @param model   Model
+     * @param keyword keyword å…³é�?®å­—
+     * @param page    page å½“å‰?é¡µç ?
+     * @param size    size æ¯?é¡µæ˜¾ç¤ºæ?¡æ•°
+     *
+     * @return æ¨¡æ?¿è·¯å¾„admin/admin_post
+     */
+    
+>>>>>>> YOURS
+
+
+    /**
+     * 处�?�预览文章的请求
+     *
+     * @param postId 文章编�?�
      * @param model  model
      *
-     * @return 模板路径/themes/{theme}/post
+     * @return 模�?�路径/themes/{theme}/post
      */
     @GetMapping(value = "/view")
     public String viewPost(@RequestParam("postId") Long postId, Model model) {
@@ -136,9 +168,9 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 处理跳转到新建文章页面
+     * 处�?�跳转到新建文章页�?�
      *
-     * @return 模板路径admin/admin_editor
+     * @return 模�?�路径admin/admin_editor
      */
     @GetMapping(value = "/write")
     public String writePost() {
@@ -146,12 +178,12 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 跳转到编辑文章页面
+     * 跳转到编辑文章页�?�
      *
-     * @param postId 文章编号
+     * @param postId 文章编�?�
      * @param model  model
      *
-     * @return 模板路径admin/admin_editor
+     * @return 模�?�路径admin/admin_editor
      */
     @GetMapping(value = "/edit")
     public String editPost(@RequestParam("postId") Long postId, Model model) {
@@ -183,7 +215,7 @@ public class PostController extends BaseController {
             if (StrUtil.isNotEmpty(post.getPostPassword())) {
                 post.setPostPassword(SecureUtil.md5(post.getPostPassword()));
             }
-            //当没有选择文章缩略图的时候，自动分配一张内置的缩略图
+            //å½“æ²¡æœ‰é€‰æ‹©æ–‡ç« ç¼©ç•¥å›¾çš„æ—¶å€™ï¼Œè‡ªåŠ¨åˆ†é…?ä¸€å¼ å†…ç½®çš„ç¼©ç•¥å›¾
             if (StrUtil.equals(post.getPostThumbnail(), BlogPropertiesEnum.DEFAULT_THUMBNAIL.getProp())) {
                 post.setPostThumbnail("/static/halo-frontend/images/thumbnail/thumbnail-" + RandomUtil.randomInt(1, 11) + ".jpg");
             }
@@ -198,11 +230,16 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 更新
+     * æ›´æ–°
      *
      * @param post     post
-     * @param cateList 分类目录
-     * @param tagList  标签
+     * @param cateList åˆ†ç±»ç›®å½•
+     * @param tagList  æ ‡ç­¾
+<<<<<<< MINE
+=======
+     * @param session  session
+     *
+>>>>>>> YOURS
      * @return JsonResult
      */
     @PostMapping(value = "/update")
@@ -222,7 +259,7 @@ public class PostController extends BaseController {
         if (StrUtil.isNotEmpty(post.getPostPassword())) {
             post.setPostPassword(SecureUtil.md5(post.getPostPassword()));
         }
-        //当没有选择文章缩略图的时候，自动分配一张内置的缩略图
+        //å½“æ²¡æœ‰é€‰æ‹©æ–‡ç« ç¼©ç•¥å›¾çš„æ—¶å€™ï¼Œè‡ªåŠ¨åˆ†é…?ä¸€å¼ å†…ç½®çš„ç¼©ç•¥å›¾
         if (StrUtil.equals(post.getPostThumbnail(), BlogPropertiesEnum.DEFAULT_THUMBNAIL.getProp())) {
             post.setPostThumbnail("/static/halo-frontend/images/thumbnail/thumbnail-" + RandomUtil.randomInt(1, 11) + ".jpg");
         }
@@ -235,11 +272,11 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 处理移至回收站的请求
+     * 处�?�移至回收站的请求
      *
-     * @param postId 文章编号
+     * @param postId 文章编�?�
      *
-     * @return 重定向到/admin/posts
+     * @return �?定�?�到/admin/posts
      */
     @GetMapping(value = "/throw")
     public String moveToTrash(@RequestParam("postId") Long postId, @RequestParam("status") Integer status) {
@@ -253,11 +290,11 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 处理文章为发布的状态
+     * 处�?�文章为�?�布的状�?
      *
-     * @param postId 文章编号
+     * @param postId 文章编�?�
      *
-     * @return 重定向到/admin/posts
+     * @return �?定�?�到/admin/posts
      */
     @GetMapping(value = "/revert")
     public String moveToPublish(@RequestParam("postId") Long postId,
@@ -272,11 +309,11 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 处理删除文章的请求
+     * 处�?�删除文章的请求
      *
-     * @param postId 文章编号
+     * @param postId 文章编�?�
      *
-     * @return 重定向到/admin/posts
+     * @return �?定�?�到/admin/posts
      */
     @GetMapping(value = "/remove")
     public String removePost(@RequestParam("postId") Long postId, @RequestParam("postType") String postType) {
@@ -294,9 +331,9 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 更新所有摘要
+     * 更新所有摘�?
      *
-     * @param postSummary 文章摘要字数
+     * @param postSummary 文章摘�?字数
      *
      * @return JsonResult
      */
@@ -314,7 +351,7 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 验证文章路径是否已经存在
+     * 验�?文章路径是�?�已�?存在
      *
      * @param postUrl 文章路径
      *
@@ -332,7 +369,7 @@ public class PostController extends BaseController {
     }
 
     /**
-     * 将所有文章推送到百度
+     * 将所有文章推�?到百度
      *
      * @param baiduToken baiduToken
      *

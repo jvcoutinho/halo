@@ -34,11 +34,12 @@ import java.util.Date;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
+
 import static cc.ryanc.halo.model.dto.HaloConst.OPTIONS;
 
 /**
  * <pre>
- *     前台文章归档控制器
+ *     �?�?�文章归档控制器
  * </pre>
  *
  * @author : RYAN0UP
@@ -62,7 +63,7 @@ public class FrontArchiveController extends BaseController {
      *
      * @param model model
      *
-     * @return 模板路径
+     * @return 模�?�路径
      */
     @GetMapping
     public String archives(Model model) {
@@ -73,15 +74,14 @@ public class FrontArchiveController extends BaseController {
      * 文章归档分页
      *
      * @param model model
-     * @param page  page 当前页码
-     *
-     * @return 模板路径/themes/{theme}/archives
+     * @param page  page 当�?页�?
+     * @return 模�?�路径/themes/{theme}/archives
      */
     @GetMapping(value = "page/{page}")
     public String archives(Model model,
                            @PathVariable(value = "page") Integer page,
                            @SortDefault(sort = "postDate", direction = DESC) Sort sort) {
-        //所有文章数据，分页，material主题适用
+        //所有文章数�?�，分页，material主题适用
         final Pageable pageable = PageRequest.of(page - 1, 5, sort);
         final Page<Post> posts = postService.findPostByStatus(PostStatusEnum.PUBLISHED.getCode(), PostTypeEnum.POST_TYPE_POST.getDesc(), pageable);
         if (null == posts) {
@@ -90,16 +90,30 @@ public class FrontArchiveController extends BaseController {
         model.addAttribute("is_archives", true);
         model.addAttribute("posts", posts);
         return this.render("archives");
-    }
+    }<<<<<<< MINE
+=======
+
 
     /**
-     * 文章归档，根据年月
+     * æ–‡ç« å½’æ¡£åˆ†é¡µ
+     *
+     * @param model model
+     * @param page  page å½“å‰?é¡µç ?
+     *
+     * @return æ¨¡æ?¿è·¯å¾„/themes/{theme}/archives
+     */
+    
+>>>>>>> YOURS
+
+
+    /**
+     * 文章归档，根�?�年月
      *
      * @param model model
      * @param year  year 年份
      * @param month month 月份
      *
-     * @return 模板路径/themes/{theme}/archives
+     * @return 模�?�路径/themes/{theme}/archives
      */
     @GetMapping(value = "{year}/{month}")
     public String archives(Model model,
@@ -117,10 +131,10 @@ public class FrontArchiveController extends BaseController {
     /**
      * 渲染文章详情
      *
-     * @param postUrl 文章路径名
+     * @param postUrl 文章路径�??
      * @param model   model
      *
-     * @return 模板路径/themes/{theme}/post
+     * @return 模�?�路径/themes/{theme}/post
      */
     @GetMapping(value = "{postUrl}")
     public String getPost(@PathVariable String postUrl,
@@ -131,17 +145,17 @@ public class FrontArchiveController extends BaseController {
         if (null == post || !post.getPostStatus().equals(PostStatusEnum.PUBLISHED.getCode())) {
             return this.renderNotFound();
         }
-        //获得当前文章的发布日期
+        //èŽ·å¾—å½“å‰?æ–‡ç« çš„å?‘å¸ƒæ—¥æœŸ
         final Date postDate = post.getPostDate();
         final Post prePost = postService.getPrePost(postDate);
         final Post nextPost = postService.getNextPost(postDate);
         if (null != prePost) {
-            //兼容老版本主题
+            //å…¼å®¹è€?ç‰ˆæœ¬ä¸»é¢˜
             model.addAttribute("beforePost", prePost);
             model.addAttribute("prePost", prePost);
         }
         if (null != nextPost) {
-            //兼容老版本主题
+            //å…¼å®¹è€?ç‰ˆæœ¬ä¸»é¢˜
             model.addAttribute("afterPost", nextPost);
             model.addAttribute("nextPost", nextPost);
         }
@@ -151,7 +165,7 @@ public class FrontArchiveController extends BaseController {
         } else {
             comments = commentService.findCommentsByPostAndCommentStatusNot(post, CommentStatusEnum.RECYCLE.getCode());
         }
-        //获取文章的标签用作keywords
+        //èŽ·å?–æ–‡ç« çš„æ ‡ç­¾ç�?¨ä½œkeywords
         final List<Tag> tags = post.getTags();
         final List<String> tagWords = new ArrayList<>();
         if (tags != null) {
@@ -159,13 +173,13 @@ public class FrontArchiveController extends BaseController {
                 tagWords.add(tag.getTagName());
             }
         }
-        //默认显示10条
+        //é»˜è®¤æ˜¾ç¤º10æ?¡
         int size = 10;
-        //获取每页评论条数
+        //èŽ·å?–æ¯?é¡µè¯„è®ºæ?¡æ•°
         if (StrUtil.isNotBlank(OPTIONS.get(BlogPropertiesEnum.INDEX_COMMENTS.getProp()))) {
             size = Integer.parseInt(OPTIONS.get(BlogPropertiesEnum.INDEX_COMMENTS.getProp()));
         }
-        //评论分页
+        //è¯„è®ºåˆ†é¡µ
         final ListPage<Comment> commentsPage = new ListPage<Comment>(CommentUtil.getComments(comments), cp, size);
         final int[] rainbow = PageUtil.rainbow(cp, commentsPage.getTotalPage(), 3);
         model.addAttribute("is_post", true);
@@ -175,12 +189,12 @@ public class FrontArchiveController extends BaseController {
         model.addAttribute("tagWords", CollUtil.join(tagWords, ","));
         postService.cacheViews(post.getPostId());
 
-        //判断文章是否有加密
+        //åˆ¤æ–­æ–‡ç« æ˜¯å?¦æœ‰åŠ å¯†
         if (StrUtil.isNotEmpty(post.getPostPassword())) {
             Cookie cookie = ServletUtil.getCookie(request, "halo-post-password-" + post.getPostId());
             if (null == cookie) {
-                post.setPostSummary("该文章为加密文章");
-                post.setPostContent("<form id=\"postPasswordForm\" method=\"post\" action=\"/archives/verifyPostPassword\"><p>该文章为加密文章，输入正确的密码即可访问。</p><input type=\"hidden\" id=\"postId\" name=\"postId\" value=\"" + post.getPostId() + "\"> <input type=\"password\" id=\"postPassword\" name=\"postPassword\"> <input type=\"submit\" id=\"passwordSubmit\" value=\"提交\"></form>");
+                post.setPostSummary("è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ");
+                post.setPostContent("<form id=\"postPasswordForm\" method=\"post\" action=\"/archives/verifyPostPassword\"><p>è¯¥æ–‡ç« ä¸ºåŠ å¯†æ–‡ç« ï¼Œè¾“å…¥æ­£ç¡®çš„å¯†ç ?å?³å?¯è®¿é—®ã€‚</p><input type=\"hidden\" id=\"postId\" name=\"postId\" value=\"" + post.getPostId() + "\"> <input type=\"password\" id=\"postPassword\" name=\"postPassword\"> <input type=\"submit\" id=\"passwordSubmit\" value=\"æ??äº¤\"></form>");
             }
         }
         model.addAttribute("post", post);
@@ -188,7 +202,7 @@ public class FrontArchiveController extends BaseController {
     }
 
     /**
-     * 验证文章密码
+     * 验�?文章密�?
      *
      * @param postId       postId
      * @param postPassword postPassword
